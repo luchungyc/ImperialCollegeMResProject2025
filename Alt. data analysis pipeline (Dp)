@@ -1,0 +1,54 @@
+# Create lists of Dp values
+dp_values = 10**np.linspace(0,-6,7)
+
+# Define number of datapoints per list
+n_points = len(rfp[0])
+
+# 4x4 grid to fit 13 plots + 1 legend spot
+fig, axes = plt.subplots(5,3, figsize=(12,16), dpi=300)
+axes = axes.flatten()
+
+# Create plots of expression against Dp for each induction point
+for idx in range(n_points):
+    rfp_vals = [rfp_set[idx] for rfp_set in rfp]
+    gfp_vals = [gfp_set[idx] for gfp_set in gfp]
+    
+    ax = axes[idx]
+    ax.plot(dp_values, rfp_vals, 'o-', color='#93022D', label='RFP')
+    ax.plot(dp_values, gfp_vals, 'o-', color='#9BE19D', label='GFP')
+    
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.invert_xaxis() # Ensure x-axis is correctly lined up
+    ax.set_title(f'$k_{{p_1}}^{{on}} = 10^{{{idx}}}$', fontsize=15)
+    ax.grid()
+
+    # Add y-axis labels only to the first column
+    if idx % 3 == 0:
+        ax.set_ylabel('Protein (units)', fontsize=12)
+
+    # Add x-axis labels only to the last row
+    if idx >= 10:
+        ax.set_xlabel(r'$D_p$ scale', fontsize=12)
+
+# Place legend in unused subplot
+legend_ax = axes[13]
+legend_ax.axis('off')
+legend_ax.legend(
+    handles=[
+        plt.Line2D([0], [0], marker='o', color='#93022D', label='RFP'),
+        plt.Line2D([0], [0], marker='o', color='#9BE19D', label='GFP')
+    ],
+    fontsize=25,
+    loc='upper left'
+)
+
+# Remove unused subplots after the legend
+for j in range(n_points, len(axes)):
+    if j != 13: 
+        fig.delaxes(axes[j])
+
+# Create a title and show plot
+fig.suptitle("rfp = 0.5 µm, gfp = 1.5 µm", fontsize=18, y=1.005)
+plt.tight_layout()
+plt.show()
