@@ -11,6 +11,6 @@ This file contains the Julia code required for running a single simulation of th
 
 This file contains the Julia code required for running and saving multiple simulations over a range of parameters.
 
-**Plot pipeline**
+**Data analysis pipelines**
 
 This file contains an example of the Python code used in the data analysis pipeline.
