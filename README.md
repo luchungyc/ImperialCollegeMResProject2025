@@ -1,7 +1,7 @@
 # ImperialCollegeMResProject2025
 This folder contains code used in Luc Hung's MRes project at Imperial College London. 
 
-**DO NOT REPRODUCE OR COPY WITHOUT PERMISSION.**
+**DO NOT REPRODUCE AND/OR DISTRIBUTE WITHOUT PERMISSION.**
 
 **Julia model - single simulation**
 
