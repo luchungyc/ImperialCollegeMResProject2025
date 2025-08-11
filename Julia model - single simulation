@@ -125,7 +125,7 @@ function save_output(solution;folder_tag = "",save_array = false, show_plot = tr
     timestamp = Dates.format(now(), "yyyy-mm-dd_HH-MM_SS") # timestamp for folder name
 
     # Create a folder to save results to the specified directory
-    folder_tag = homedir()*"/Desktop/mres project simulation results/better graphics/"*folder_tag
+    folder_tag = homedir()*"(insert custom directory here)"*folder_tag
     while isdir(folder_tag*timestamp) # Attach a random number in case the folder already exists
         timestamp = timestamp*string(rand(001:999))
     end
