@@ -136,6 +136,7 @@ function save_output(solution;folder_tag = "",save_array = false, show_plot = tr
     if save_array
         println("Saving last time profile in folder ", folder)
         writedlm(folder * "/genespace_printout.txt",[
+        # Save parameters
         "Time: $t_end s",
         "Parameters:",
         "Free RNAP diffusion constant = $Dp",
@@ -180,7 +181,7 @@ function save_output(solution;folder_tag = "",save_array = false, show_plot = tr
         "",
         "",
         "",
-        "Variables:",
+        "Solutions:", # Save solutions at each spatial point and in total
         "Total free polymerase = $(trapz(solution[x], solution[Pf(t,x)][end,:]))",
         "Free polymerase distribution = $(solution[Pf(t,x)][end,:])",
         "",
