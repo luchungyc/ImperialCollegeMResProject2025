@@ -13,4 +13,8 @@ This file contains the Julia code required for running and saving multiple simul
 
 **Data analysis pipelines**
 
-This file contains an example of the Python code used in the data analysis pipeline.
+This file contains an example of the Python code used in the general data analysis pipeline for creating induction profiles and isocost lines.
+
+**Alt. data analysis pipeline (Dp)**
+
+This file contains Python code for creating plots of expression against RNAP diffusion for different induction points.
