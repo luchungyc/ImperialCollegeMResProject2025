@@ -18,3 +18,7 @@ This file contains an example of the Python code used in the general data analys
 **Alt. data analysis pipeline (Dp)**
 
 This file contains Python code for creating plots of expression against RNAP diffusion for different induction points.
+
+**Data analysis presets**
+
+This file contains the presets and package imports for data analysis (which were initialised in a separate codeblock).
