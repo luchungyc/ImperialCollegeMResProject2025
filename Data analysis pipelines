@@ -1,0 +1,135 @@
+# Insert date here:
+# Insert module positions here: x1 = , x2 = 
+# Insert tested variable here: 
+# Insert simulation time here:
+
+# Create a function for a colormap from white → color → black, with the specified color at the midpoint.
+def midpoint_colormap(name, hex_color, n=256):
+    return LinearSegmentedColormap.from_list(
+        name,
+        ['#ffffff', hex_color, '#000000'],
+        N=n
+    )
+# Create a function to truncate the colormap 
+def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=256, name='truncated'):
+    """
+    Truncate a colormap to only use the range [minval, maxval].
+    """
+    new_colors = cmap(np.linspace(minval, maxval, n))
+    return LinearSegmentedColormap.from_list(name, new_colors)
+
+# Define colors
+red_base = midpoint_colormap("red_mid", "#93022D")
+green_base = midpoint_colormap("green_mid", "#9BE19D")
+blue_base = midpoint_colormap("blue_mid", "#48ACF0")
+
+# Execute colormap truncation function
+red_cmap_trunc = truncate_colormap(red_base, minval=0.2, maxval=0.5)
+green_cmap_trunc = truncate_colormap(green_base, minval=0.4, maxval=0.8)
+blue_cmap_trunc = truncate_colormap(blue_base, minval=0.4, maxval=0.8)
+
+# Normalise colormap over size of parameter range
+norm = Normalize(vmin=0, vmax=)
+
+# Create lists for customised legend
+rfp_legend = []
+gfp_legend = []
+iso_legend = []
+
+# Add lists of data here:
+rfplist_parameter_value1 = []
+gfplist_parameter_value1 = []
+rfplist_parameter_value2 = []
+gfplist_parameter_value2 = []
+# etc.
+
+# Create a logarithmic range of induction points for the x-axis of each plot
+induction = np.logspace(0,12,13)
+
+# Collect all datalists for RFP and GFP at each parameter value into a master list
+rfp = []
+gfp = []
+
+# Create subplot grid
+fig,axs = plt.subplots(2,2,figsize=(12,10),dpi=300)
+
+# For-loop to plot induction series and isocost lines for each set of parameters
+for i in range(7):
+  red_color = red_cmap_trunc(norm(i))
+  green_color = green_cmap_trunc(norm(i))
+  blue_color = blue_cmap_trunc(norm(i))
+
+  # Plot induction profiles
+  axs[0,0].plot(induction, rfp[i], color=red_color, zorder=2, marker="o")
+  axs[0,0].plot(induction, gfp[i], color=green_color, zorder=2, marker="o")
+
+  # Plot induction profiles with log. scale
+  axs[0,1].plot(induction, rfp[i], color=red_color, marker="o")
+  axs[0,1].plot(induction, gfp[i], color=green_color, marker="o")
+
+  # Plot isocost lines
+  axs[1,0].plot(rfp[i], gfp[i], color=blue_color, marker="s")
+
+  # Plot isocost lines with log. scale
+  axs[1,1].plot(rfp[i], gfp[i], color=blue_color, zorder=2, marker="s")
+
+  # Create customised line graphics for the legend
+  rfp_line = Line2D([0], [0], marker="o", color=red_color, lw=2, label=fr"$10^{{{(-i if i != 0 else 0)}}}$ (RFP)")
+  gfp_line = Line2D([0], [0], marker="o", color=green_color, lw=2, label=fr"$10^{{{(-i if i != 0 else 0)}}}$ (GFP)")
+  iso_line = Line2D([0], [0], marker="s", color=blue_color, lw=2, label=fr"$10^{{{(-i if i != 0 else 0)}}}$")
+
+  # Append these to the RFP and GFP master lists for the legend
+  rfp_legend.append(rfp_line)
+  gfp_legend.append(gfp_line)
+  iso_legend.append(iso_line)
+
+# Add minor ticks and gridlines to each plot
+for ax_row in axs:
+    for ax in ax_row:
+        ax.minorticks_on()
+        ax.grid(zorder=10)
+
+# Adjust and customise legends
+combined_legend = rfp_legend + gfp_legend
+axs[0,1].legend(
+    handles=combined_legend,
+    loc='upper left',
+    bbox_to_anchor=(1.05, 1),
+    ncol=2,  # side-by-side columns
+    title="$D_p$ scale",
+    fontsize=12,
+    title_fontsize=14
+)
+
+axs[1,1].legend(
+    handles=iso_legend,
+    title="$D_p$ scale",
+    fontsize=12,
+    title_fontsize=14,
+    loc='upper left',
+    bbox_to_anchor=(1.05, 1)
+)
+
+# Set titles, axes labels, and scales
+fig.suptitle("rfp = 0.5 µm, gfp = 1.5 µm", fontsize=18)
+axs[0,0].set_xlabel("Induction ($k_{p_1}^{on}$)", fontsize=15)
+axs[0,0].set_ylabel("Protein (units)", fontsize=15)
+axs[0,1].set_xlabel("Induction ($k_{p_1}^{on}$)", fontsize=15)
+axs[0,1].set_ylabel("Protein (units)", fontsize=15)
+axs[1,0].set_xlabel("RFP (units)", fontsize=15)
+axs[1,0].set_ylabel("GFP (units)", fontsize=15)
+axs[1,1].set_xlabel("RFP (units)", fontsize=15)
+axs[1,1].set_ylabel("GFP (units)", fontsize=15)
+axs[0,0].set_xscale("log")
+axs[0,1].set_xscale("log")
+axs[0,1].set_yscale("log")
+axs[1,1].set_yscale("log")
+axs[1,1].set_xscale("log")
+axs[0,0].set_title("Induction profile", fontsize=15, fontweight="bold")
+axs[0,1].set_title("Induction profile (log)", fontsize=15, fontweight="bold")
+axs[1,0].set_title("Isocost line diagram", fontsize=15, fontweight="bold")
+axs[1,1].set_title("Isocost line diagram (log)", fontsize=15, fontweight="bold")
+
+# Make adjustments to spacings and show
+plt.subplots_adjust(hspace=0.3, wspace=0.3)
+plt.show()
