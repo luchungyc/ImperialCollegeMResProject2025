@@ -2,10 +2,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import cm
 from matplotlib.colors import Normalize, LinearSegmentedColormap
-import matplotlib.colorbar as cbar
-from matplotlib.cm import ScalarMappable
 from matplotlib.lines import Line2D
 
 plt.rcdefaults()
