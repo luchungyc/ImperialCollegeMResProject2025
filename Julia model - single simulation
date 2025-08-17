@@ -21,7 +21,7 @@ using Plots, ModelingToolkit, MethodOfLines, OrdinaryDiffEq, DelimitedFiles, Dom
 # Spatiotemporal parameters
 disc = 0.01 # Space step size / dx (µm) / discretization size in x
 L::Float64 = 2.0 # Length of the domain (µm) /  cell length
-t_end::Float64 = 10^7 # Simulation time course (s)
+t_end::Float64 = 10^7 # Simulation time (s)
 
 # Partial derivatives (defined symbolically)
 ∂t = Differential(t)
@@ -36,30 +36,30 @@ x2::Float64 = 1.0 # Location Plasmid 2
 S::Float64 = 0.0001 # Scaling factor 
 
 # RNAP parameters
-Dp::Float64 = (0.21) # RNAP diffusion rate - "mixed-state" (µm^2/s)
-αP::Float64 = (0.3525*disc) # RNAP production rate (RNAP/µm/s)
-γP::Float64 = 0.000352 # RNAP degradation rate (/s)
-k1_on::Float64 = () # RNAP binding rate from rfp module (bindings/RNAP/s)
-k1_off::Float64 = 461 # RNAP unbinding rate from rfp module (unbindings/RNAP/s)
-k2_on::Float64 = () # RNAP binding rate from gfp module (bindings/RNAP/s)
-k2_off::Float64 = 461 # RNAP unbinding rate from gfp module (unbindings/RNAP/s)
-Km::Float64 = () # Limiting constant for polymerase binding (RNAP)
+Dp::Float64 = (0.21) # RNAP diffusion rate - "mixed-state"
+αP::Float64 = (0.3525*disc) # RNAP production rate 
+γP::Float64 = 0.000352 # RNAP degradation rate
+k1_on::Float64 = () # RNAP binding rate from rfp module 
+k1_off::Float64 = 461 # RNAP unbinding rate from rfp module 
+k2_on::Float64 = () # RNAP binding rate from gfp module 
+k2_off::Float64 = 461 # RNAP unbinding rate from gfp module 
+Km::Float64 = () # Limiting constant for polymerase binding
 
 # mRNA parameters
-Dm::Float64 = (0.03) # mRNA diffusion rate (µm^2/s)
-γm::Float64 = 0.002 # mRNA degradation rate (/s)
-αm1::Float64 = 0.0348 # RFP transcription rate (units/RNAP/s)
-αm2::Float64 = 0.033 # GFP transcription rate per ribosome (units/RNAP/s)
+Dm::Float64 = (0.03) # mRNA diffusion rate 
+γm::Float64 = 0.002 # mRNA degradation rate 
+αm1::Float64 = 0.0348 # RFP transcription rate 
+αm2::Float64 = 0.033 # GFP transcription rate per ribosome 
 
 # Ribosome parameters
-Dr::Float64 = (0.04) # Ribosome diffusion rate (µm^2/s)
-Drm::Float64 = (0.03) # Translating complex diffusion rate (µm^2/s)
-γr::Float64 = 0.000193 # Ribosome degradation rate (/s)
-αr::Float64 = (2.365*disc) # Ribosome production rate (ribosomes/µm/s)
-kr1_on::Float64 = 0.0541 # Ribosome binding rate (rfp) (bindings/ribosome/s)
-kr1_off::Float64 = 0.0541 # Ribosome unbinding rate (rfp) (unbindings/ribosome/s)
-kr2_on::Float64 = 0.0541 # Ribosome binding rate (gfp) (bindings/ribosome/s)
-kr2_off::Float64 = 0.0541 # Ribosome unbinding rate (gfp) (unbindings/ribosome/s)
+Dr::Float64 = (0.04) # Ribosome diffusion rate 
+Drm::Float64 = (0.03) # Translating complex diffusion rate 
+γr::Float64 = 0.000193 # Ribosome degradation rate 
+αr::Float64 = (2.365*disc) # Ribosome production rate 
+kr1_on::Float64 = 0.0541 # Ribosome binding rate (rfp) 
+kr1_off::Float64 = 0.0541 # Ribosome unbinding rate (rfp)
+kr2_on::Float64 = 0.0541 # Ribosome binding rate (gfp) 
+kr2_off::Float64 = 0.0541 # Ribosome unbinding rate (gfp) 
 
 # Protein parameters
 αX1 = 0.06 # RFP translation rate
@@ -328,15 +328,15 @@ function save_output(solution;folder_tag = "",save_array = false, show_plot = tr
         end
 
         # Create a plot for the legend
-        legend = plot([0 0 0 0 0 0], showaxis = false, grid = false, label = ["Free polymerases" "Free mRNA (RFP)" "Free mRNA (GFP)" "Free ribosomes" "RFP translating complexes" "GFP translating complexes"], 
+        legend = plot([0 0 0 0 0 0], showaxis = false, grid = false, label = ["Free RNAP" "Free mRNA (rfp)" "Free mRNA (gfp)" "Free ribosomes" "RFP translating complexes" "GFP translating complexes"], 
         color= [blue_color red_color green_color gray_color red_color green_color], linestyle = [:solid :dot :dot :solid :dash :dash],size=(0,0))
-        legend = bar!([0],[0], bar_width=0.05, color=red_color, label="RFP module bound RNAP", alpha=0.5)
-        legend = bar!([0],[0], bar_width=0.05, color=green_color, label="GFP module bound RNAP", alpha=0.5)
+        legend = bar!([0],[0], bar_width=0.05, color=red_color, label="Bound RNAP (rfp)", alpha=0.5)
+        legend = bar!([0],[0], bar_width=0.05, color=green_color, label="Bound RNAP (gfp)", alpha=0.5)
 
         # Combine all plots and the legend into a single figure
-        combined = plot(fig_pol, fig_mrna, fig_rbsfree, fig_rbsbound, legend, layout=@layout([[2,2]; E]), size=(1800,2200),
-        titlefontfamily="Helvetica Bold", titlefontsize=25, guidefontsize=20, guidefontfamily="Helvetica Bold", legendfontsize=18, 
-        legendcolumns=3, left_margin=2cm, right_margin=2cm)
+        combined = plot(fig_pol, fig_mrna, fig_rbsfree, fig_rbsbound, legend, layout=@layout([[2,2]; E]), size=(2200,2200),
+        titlefontfamily="Helvetica Bold", titlefontsize=25, guidefontsize=20, guidefontfamily="Helvetica Bold", legendfontsize=17, 
+        legendcolumns=4, left_margin=2cm, right_margin=2cm)
         
         # Save the combined indivudual distributions or show it
         if save_plot
