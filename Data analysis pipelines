@@ -96,14 +96,14 @@ axs[0,1].legend(
     loc='upper left',
     bbox_to_anchor=(1.05, 1),
     ncol=2,  # side-by-side columns
-    title="$D_p$ scale",
+    title="() scale",
     fontsize=12,
     title_fontsize=14
 )
 
 axs[1,1].legend(
     handles=iso_legend,
-    title="$D_p$ scale",
+    title="() scale",
     fontsize=12,
     title_fontsize=14,
     loc='upper left',
