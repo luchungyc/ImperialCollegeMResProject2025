@@ -32,9 +32,6 @@ t_end::Float64 = 10^7 # Simulation time (s)
 x1::Float64 = 1.0 # Location Plasmid 1
 x2::Float64 = 1.0 # Location Plasmid 2
 
-# Scaling factor
-S::Float64 = 0.0001 # Scaling factor 
-
 # RNAP parameters
 Dp::Float64 = (0.21) # RNAP diffusion rate - "mixed-state"
 αP::Float64 = (0.3525*disc) # RNAP production rate 
