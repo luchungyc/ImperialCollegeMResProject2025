@@ -112,9 +112,9 @@ axs[1,1].legend(
 
 # Set titles, axes labels, and scales
 fig.suptitle("$x_1$ = () µm, $x_2$ = () µm", fontsize=18)
-axs[0,0].set_xlabel("Induction ($k_{p_1}^{on}$)", fontsize=15)
+axs[0,0].set_xlabel("Induction ($k_{p_1}^{on}, s^{-1}$)", fontsize=15)
 axs[0,0].set_ylabel("Protein (units)", fontsize=15)
-axs[0,1].set_xlabel("Induction ($k_{p_1}^{on}$)", fontsize=15)
+axs[0,1].set_xlabel("Induction ($k_{p_1}^{on}, s^{-1}$)", fontsize=15)
 axs[0,1].set_ylabel("Protein (units)", fontsize=15)
 axs[1,0].set_xlabel("RFP (units)", fontsize=15)
 axs[1,0].set_ylabel("GFP (units)", fontsize=15)
