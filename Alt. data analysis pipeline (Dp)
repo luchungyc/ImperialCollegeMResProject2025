@@ -20,7 +20,7 @@ for idx in range(n_points):
     ax.set_xscale('log')
     ax.set_yscale('log')
     ax.invert_xaxis() # Ensure x-axis is correctly lined up
-    ax.set_title(f'$k_{{p_1}}^{{on}} = 10^{{{idx}}}$', fontsize=15)
+    ax.set_title(f'$k_{{p_1}}^{{on}} = 10^{{{idx}}}$ $s^{{-1}}$', fontsize=15)
     ax.grid()
 
     # Add y-axis labels only to the first column
